@@ -1,0 +1,8 @@
+{
+  "host": "http://localhost:3000",
+  "GITHUB_URLS": {
+    "GITHUB_LOGIN_URL": "https://github.com/login/oauth/authorize",
+    "OAUTH_CALLBACK_URL": "https://github.com/login/oauth/access_token",
+    "GUILDCRAFTS_GOALS_URL": "https://api.github.com/repos/GuildCrafts/web-development-js/issues"
+  }
+}

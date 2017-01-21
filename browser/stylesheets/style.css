@@ -1,0 +1,38 @@
+.mui-btn {
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 18px;
+  text-transform: uppercase;
+  color: white;
+  transition: all .2s ease-in-out;
+  display: inline-block;
+  height: 32px;
+  padding: 0 5px;
+  margin-top: 6px;
+  margin-bottom: 6px;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  background-image: none;
+  text-align: center;
+  line-height: 36px;
+  vertical-align: middle;
+  white-space: nowrap;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  font-size: 12px;
+  letter-spacing: .03em;
+  position: relative;
+  overflow: hidden;
+}
+
+.details_modal {
+  width: '1000px';
+  height: '800px';
+  margin: '100px auto';
+  background-color: '#fff';
+}
