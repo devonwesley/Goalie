@@ -1,4 +1,4 @@
-# Goalie
+# Goalie ![Image of Goalie](http://mrnussbaum.com/slapshot1/ipad/images/goalie.gif =100x20)
 
 ## Contributing
 
