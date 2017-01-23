@@ -6,7 +6,7 @@ import {
   updateCommentCallback
 } from './request_callbacks/comments'
 
-router.get('/:comment_number', getCommentsCallback)
+router.get('/:issue_number', getCommentsCallback)
 router.post('/create_comment', createCommentCallback)
 router.put('/update_comment', updateCommentCallback)
 
