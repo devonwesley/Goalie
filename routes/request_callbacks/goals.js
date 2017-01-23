@@ -58,11 +58,7 @@ const getAllMilestonesCallback = (request, response) => {
     }
   }
 
-  requestPromise(options).then(milestones => {
-    console.log(milestones)
-
-    response.json(milestones)
-  })
+  requestPromise(options).then(milestones => response.json(milestones))
 }
 
 export {goalDetailsCallback, getLabelsCallback, getAllMilestonesCallback}

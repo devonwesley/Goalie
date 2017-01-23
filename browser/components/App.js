@@ -41,7 +41,6 @@ export default class App extends Component {
 
   renderMilestones() {
     const milestones = this.state.milestones
-    console.log(milestones)
 
     return milestones.map((milestones, index) =>
       <Button
@@ -70,8 +69,6 @@ export default class App extends Component {
     const rows = []
     const goals = this.state.goals
     const filterBy = this.state.filterBy
-
-    // console.log('Goals', goals)
 
     const levelFileterdGoals = goals.filter(goal => {
       if (!filterBy) return true

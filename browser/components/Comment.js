@@ -16,8 +16,6 @@ export default class Comment extends Component {
   render() {
     const comment = this.state.comment
 
-    console.log('comment:', comment)
-
     return <Panel>
       <div style={{float: 'right'}}>
         <img style={{borderRadius: '5px'}}src={comment.user.avatar_url} height="50px" width="50px"/>
