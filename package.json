@@ -10,6 +10,7 @@
     "lint": "functionhappy | snazzy"
   },
   "dependencies": {
+    "babel": "^6.5.2",
     "body-parser": "~1.15.2",
     "compression": "^1.6.2",
     "cookie-parser": "~1.4.3",
