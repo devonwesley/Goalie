@@ -23,11 +23,11 @@ const createCommentCallback = (request, response) => {
 
 const getCommentsCallback = (request, response) => {
   const {github_access_token} = request.session
-  const {number} = request.params
+  const {issue_number} = request.params
 
   const options = {
     method: 'GET',
-    url: `${config.GUILDCRAFTS_GOALS_URL}/${number}/comments`,
+    url: `${config.GUILDCRAFTS_GOALS_URL}/${issue_number}/comments`,
     headers: {
       'user-agent': 'node.js',
       'authorization': `Token ${github_access_token}`
