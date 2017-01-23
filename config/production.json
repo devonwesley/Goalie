@@ -1,5 +1,5 @@
 {
-  "host": "lg-goals.herokuapp.com",
+  "host": "https://goalie.apps.learnersguild.org",
   "GITHUB_URLS": {
     "GITHUB_LOGIN_URL": "https://github.com/login/oauth/authorize",
     "OAUTH_CALLBACK_URL": "https://github.com/login/oauth/access_token",
