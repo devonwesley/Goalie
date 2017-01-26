@@ -205,7 +205,7 @@ module.exports =
 	  var body = _ref.body,
 	      title = _ref.title,
 	      initialState = _ref.initialState;
-	  return '\n    <!DOCTYPE html>\n    <html>\n      <head>\n        <script>window.__APP_INITIAL_STATE__ = ' + initialState + '</script>\n        <title>' + title + '</title>\n        <link href="//cdn.muicss.com/mui-0.9.8/css/mui.min.css" rel="stylesheet" type="text/css" media="screen" />\n        <link rel="stylesheet" href="/stylesheets/style.css" />\n      </head>\n\n      <body>\n        <div id="root">' + (process.env.NODE_ENV === 'production' ? body : '<div>' + body + '</div>') + '</div>\n      </body>\n\n      <script src="/dist/bundle.js"></script>\n      <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.13.1/lodash.js"></script>\n    </html>\n  ';
+	  return '\n    <!DOCTYPE html>\n    <html>\n      <head>\n        <script>window.__APP_INITIAL_STATE__ = ' + initialState + '</script>\n        <title>' + title + '</title>\n        <link href="//cdn.muicss.com/mui-0.9.8/css/mui.min.css" rel="stylesheet" type="text/css" media="screen" />\n        <link rel="stylesheet" href="/stylesheets/style.css" />\n      </head>\n\n      <body>\n        <div id="root">' + (process.env.NODE_ENV === 'production' ? body : '<div>' + body + '</div>') + '</div>\n      </body>\n\n      <script src="/dist/bundle.js"></script>\n    </html>\n  ';
 	};
 
 /***/ },
@@ -423,7 +423,8 @@ module.exports =
 	      goals: props.routes[0].goals ? props.routes[0].goals : [],
 	      labels: [],
 	      milestones: [],
-	      filterBy: 0
+	      filterBy: 0,
+	      filterType: 0
 	    };
 	    return _this;
 	  }
@@ -432,11 +433,13 @@ module.exports =
 	    key: 'filterGoal',
 	    value: function filterGoal(goals) {
 	      var rows = [];
-	      var filterBy = this.state.filterBy;
+	      var _state = this.state,
+	          filterBy = _state.filterBy,
+	          filterType = _state.filterType;
 
 
 	      var containsMilestone = function containsMilestone(title) {
-	        return title.replace('Level ', '').trim() === filterBy;
+	        return title === filterBy;
 	      };
 
 	      var containsLabel = function containsLabel(goal) {
@@ -454,10 +457,12 @@ module.exports =
 	      var filteredGoals = goals.filter(function (goal) {
 	        if (!filterBy) return true;
 
-	        if (goal.milestone) {
-	          return containsMilestone(goal.milestone.title);
-	        } else if (goal.labels.length) {
+	        if (filterType === 'label') {
 	          return containsLabel(goal);
+	        }
+
+	        if (filterType === 'milestone' && goal.milestone) {
+	          return containsMilestone(goal.milestone.title);
 	        }
 	      });
 
@@ -523,7 +528,8 @@ module.exports =
 	            color: 'primary',
 	            onClick: function onClick() {
 	              return _this4.setState({
-	                filterBy: milestones.title.replace('Level ', '').trim()
+	                filterBy: milestones.title,
+	                filterType: 'milestone'
 	              });
 	            } },
 	          milestones.title
@@ -545,7 +551,10 @@ module.exports =
 	            key: label.name + '-' + index,
 	            style: { backgroundColor: '#' + label.color },
 	            onClick: function onClick() {
-	              return _this5.setState({ filterBy: label.name });
+	              return _this5.setState({
+	                filterBy: label.name,
+	                filterType: 'label'
+	              });
 	            } },
 	          label.name
 	        );
@@ -556,9 +565,9 @@ module.exports =
 	    value: function render() {
 	      var _this6 = this;
 
-	      var _state = this.state,
-	          goals = _state.goals,
-	          filterBy = _state.filterBy;
+	      var _state2 = this.state,
+	          goals = _state2.goals,
+	          filterBy = _state2.filterBy;
 
 	      var currentGoalsState = !filterBy ? goals : this.filterGoal(goals);
 

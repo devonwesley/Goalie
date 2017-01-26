@@ -26638,7 +26638,8 @@
 	      goals: props.routes[0].goals ? props.routes[0].goals : [],
 	      labels: [],
 	      milestones: [],
-	      filterBy: 0
+	      filterBy: 0,
+	      filterType: 0
 	    };
 	    return _this;
 	  }
@@ -26647,11 +26648,13 @@
 	    key: 'filterGoal',
 	    value: function filterGoal(goals) {
 	      var rows = [];
-	      var filterBy = this.state.filterBy;
+	      var _state = this.state,
+	          filterBy = _state.filterBy,
+	          filterType = _state.filterType;
 
 
 	      var containsMilestone = function containsMilestone(title) {
-	        return title.replace('Level ', '').trim() === filterBy;
+	        return title === filterBy;
 	      };
 
 	      var containsLabel = function containsLabel(goal) {
@@ -26669,10 +26672,12 @@
 	      var filteredGoals = goals.filter(function (goal) {
 	        if (!filterBy) return true;
 
-	        if (goal.milestone) {
-	          return containsMilestone(goal.milestone.title);
-	        } else if (goal.labels.length) {
+	        if (filterType === 'label') {
 	          return containsLabel(goal);
+	        }
+
+	        if (filterType === 'milestone' && goal.milestone) {
+	          return containsMilestone(goal.milestone.title);
 	        }
 	      });
 
@@ -26738,7 +26743,8 @@
 	            color: 'primary',
 	            onClick: function onClick() {
 	              return _this4.setState({
-	                filterBy: milestones.title.replace('Level ', '').trim()
+	                filterBy: milestones.title,
+	                filterType: 'milestone'
 	              });
 	            } },
 	          milestones.title
@@ -26760,7 +26766,10 @@
 	            key: label.name + '-' + index,
 	            style: { backgroundColor: '#' + label.color },
 	            onClick: function onClick() {
-	              return _this5.setState({ filterBy: label.name });
+	              return _this5.setState({
+	                filterBy: label.name,
+	                filterType: 'label'
+	              });
 	            } },
 	          label.name
 	        );
@@ -26771,9 +26780,9 @@
 	    value: function render() {
 	      var _this6 = this;
 
-	      var _state = this.state,
-	          goals = _state.goals,
-	          filterBy = _state.filterBy;
+	      var _state2 = this.state,
+	          goals = _state2.goals,
+	          filterBy = _state2.filterBy;
 
 	      var currentGoalsState = !filterBy ? goals : this.filterGoal(goals);
 

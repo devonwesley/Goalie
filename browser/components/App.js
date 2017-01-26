@@ -16,16 +16,16 @@ export default class App extends Component {
       goals: props.routes[0].goals ? props.routes[0].goals : [],
       labels: [],
       milestones: [],
-      filterBy: 0
+      filterBy: 0,
+      filterType: 0
     }
   }
 
   filterGoal(goals) {
     const rows = []
-    const { filterBy } = this.state
+    const { filterBy, filterType } = this.state
 
-    const containsMilestone = title =>
-      (title.replace('Level ', '').trim() === filterBy)
+    const containsMilestone = title => (title === filterBy)
 
     const containsLabel = goal => {
       let found = false
@@ -42,10 +42,12 @@ export default class App extends Component {
     const filteredGoals =  goals.filter(goal => {
       if (!filterBy) return true
 
-      if (goal.milestone) {
-        return containsMilestone(goal.milestone.title)
-      } else if (goal.labels.length) {
+      if (filterType === 'label') {
         return containsLabel(goal)
+      }
+
+      if (filterType === 'milestone' && goal.milestone) {
+        return containsMilestone(goal.milestone.title)
       }
     })
 
@@ -95,11 +97,10 @@ export default class App extends Component {
       <Button
         key={`${milestones.title}-${index}`}
         color="primary"
-        onClick={() =>
-          this.setState({
-            filterBy: milestones.title.replace('Level ', '').trim()
-          })
-        }>
+        onClick={() => this.setState({
+          filterBy: milestones.title,
+          filterType: 'milestone'
+        })}>
         {milestones.title}
       </Button>
     )
@@ -112,7 +113,10 @@ export default class App extends Component {
       <Button
         key={`${label.name}-${index}`}
         style={{backgroundColor: `#${label.color}`}}
-        onClick={() => this.setState({filterBy: label.name})}>
+        onClick={() => this.setState({
+          filterBy: label.name,
+          filterType: 'label'
+        })}>
         {label.name}
       </Button>
     )
