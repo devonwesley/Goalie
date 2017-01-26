@@ -26780,11 +26780,6 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        _react2.default.createElement(
-	          'div',
-	          null,
-	          filterBy
-	        ),
 	        _react2.default.createElement(_react3.Appbar, null),
 	        _react2.default.createElement('br', null),
 	        _react2.default.createElement(
