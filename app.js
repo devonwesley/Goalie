@@ -38,6 +38,7 @@ app.use('/api/v1/comments', comments)
 // NOTE: This route is last since we want to match the dynamic routes above
 // first before attempting to match a static resource (js/css/etc)
 app.use(express.static(path.join(__dirname, 'browser')))
+app.use('/', express.static(path.join(__dirname, 'public')))
 app.use('/', serveReact)
 
 app.use((request, response, next) => {
