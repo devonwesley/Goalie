@@ -16,22 +16,71 @@ export default class App extends Component {
       goals: props.routes[0].goals ? props.routes[0].goals : [],
       labels: [],
       milestones: [],
-      filterBy: null
+      filterBy: 0
     }
   }
 
-  getLabels() {
-    const url = `/api/v1/goals/all_labels`
-    const callback = labels => this.setState({labels: JSON.parse(labels)})
+  filterGoal(goals) {
+    const rows = []
+    const { filterBy } = this.state
 
-    return fetchMethod('GET', url, null, callback)
+    const containsMilestone = title =>
+      (title.replace('Level ', '').trim() === filterBy)
+
+    const containsLabel = goal => {
+      let found = false
+      for(var i = 0; i < goal.labels.length; i++) {
+        if (goal.labels[i].name === filterBy) {
+          found = true
+          break
+        }
+      }
+
+      return found
+    }
+
+    const filteredGoals =  goals.filter(goal => {
+      if (!filterBy) return true
+
+      if (goal.milestone) {
+        return containsMilestone(goal.milestone.title)
+      } else if (goal.labels.length) {
+        return containsLabel(goal)
+      }
+    })
+
+    return filteredGoals
+  }
+
+  setRowGoals(goals) {
+    const rows = []
+
+    goals.forEach((goal, index) => {
+      const row = Math.floor(index / 3)
+      if (!rows[row]) rows[row] = []
+
+      rows[row].push(<GoalPanel key={goal.id} goal={goal} />)
+    })
+
+    return rows.map((row, index) => <Row key={`row-${index}`}>{row}</Row>)
+  }
+
+  getLabels() {
+    return fetchMethod(
+      'GET',
+      `/api/v1/goals/all_labels`,
+      null,
+      (labels) => this.setState({labels: JSON.parse(labels)})
+    )
   }
 
   getMilestones() {
-    const url = `/api/v1/goals/all_milestones`
-    const callback = milestones => this.setState({milestones: JSON.parse(milestones)})
-
-    return fetchMethod('GET', url, null, callback)
+    return fetchMethod(
+      'GET',
+      `/api/v1/goals/all_milestones`,
+      null,
+      (milestones) => this.setState({milestones: JSON.parse(milestones)})
+    )
   }
 
   componentDidMount() {
@@ -40,20 +89,24 @@ export default class App extends Component {
   }
 
   renderMilestones() {
-    const milestones = this.state.milestones
+    const { milestones } = this.state
 
     return milestones.map((milestones, index) =>
       <Button
         key={`${milestones.title}-${index}`}
         color="primary"
-        onClick={() => this.setState({filterBy: milestones.title})}>
+        onClick={() =>
+          this.setState({
+            filterBy: milestones.title.replace('Level ', '').trim()
+          })
+        }>
         {milestones.title}
       </Button>
     )
   }
 
   renderLabels() {
-    const labels = this.state.labels
+    const { labels } = this.state
 
     return labels.map((label, index) =>
       <Button
@@ -65,37 +118,12 @@ export default class App extends Component {
     )
   }
 
-  renderGoals() {
-    const rows = []
-    const goals = this.state.goals
-    const filterBy = this.state.filterBy
-
-    const levelFileterdGoals = goals.filter(goal => {
-      if (!filterBy) return true
-
-      if (goal.milestone) {
-        return goal.milestone.title === filterBy ? true : false
-      } else if (goal.labels.length) {
-        for (let i = 0; i < goal.labels.length; i++) {
-          if (goal.labels[i].name === filterBy) {
-            return true
-          }
-        }
-      }
-    })
-
-    levelFileterdGoals.forEach((goal, index) => {
-      const row = Math.floor(index / 3)
-      if (!rows[row]) rows[row] = []
-
-      rows[row].push(<GoalPanel key={index} goal={goal} />)
-    })
-
-    return rows.map((row, index) => <Row key={`row-${index}`}>{row}</Row>)
-  }
-
   render() {
+    const { goals, filterBy } = this.state
+    const currentGoalsState = !filterBy ? goals : this.filterGoal(goals)
+
     return <div>
+        <div>{filterBy}</div>
         <Appbar></Appbar>
         <br/>
         <Container>
@@ -113,7 +141,7 @@ export default class App extends Component {
               </Container>
             </Panel>
           </Row>
-          <Row>{this.renderGoals()}</Row>
+          <div>{this.setRowGoals( currentGoalsState )}</div>
         </Container>
       </div>
   }

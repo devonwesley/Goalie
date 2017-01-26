@@ -61,4 +61,19 @@ const getAllMilestonesCallback = (request, response) => {
   requestPromise(options).then(milestones => response.json(milestones))
 }
 
-export {goalDetailsCallback, getLabelsCallback, getAllMilestonesCallback}
+const getGoalsCallback = (request, response) => {
+  const {page_number} = request.query
+
+  const options = {
+    method: 'GET',
+    url: `${config.GUILDCRAFTS_GOALS_URL}?page=${page_number}`,
+    headers: {
+      'user-agent': 'node.js',
+      'authorization': `Token ${request.session.github_access_token}`
+    }
+  }
+
+  requestPromise(options).then(goals => response.json(goals))
+}
+
+export {goalDetailsCallback, getLabelsCallback, getAllMilestonesCallback, getGoalsCallback}
