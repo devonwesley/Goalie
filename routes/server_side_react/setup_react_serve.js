@@ -29,7 +29,7 @@ const templateOptions = (renderProps, goals) => ({
   initialState: goals
 })
 
-const clientRequest = (request, reponse, next) => (error, redirectLocation, renderProps) => {
+const clientRequest = (request, response, next) => (error, redirectLocation, renderProps) => {
   switch (request.url) {
     case '/goals':
       const {github_access_token} = request.session
@@ -38,17 +38,18 @@ const clientRequest = (request, reponse, next) => (error, redirectLocation, rend
         .then(goals => {
           const parsedGoals = JSON.parse(goals)
 
+
           const modifiedGoals = parsedGoals.map(goal =>
             Object.assign({}, goal, {from_now: moment(goal.created_at).fromNow()})
           )
 
-          reponse.status(200).send(
+          response.status(200).send(
             template(templateOptions(renderProps, JSON.stringify(modifiedGoals)))
           )
         })
       break;
     case redirectLocation:
-      reponse.redirect(302, redirectLocation.pathname + redirectLocation.search)
+      response.redirect(302, redirectLocation.pathname + redirectLocation.search)
     default:
       next
   }

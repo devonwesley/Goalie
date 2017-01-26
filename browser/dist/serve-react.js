@@ -69,8 +69,8 @@ module.exports =
 	  return response.send('<a type="button" href="/api/v1/auth/login">Log In</a>');
 	});
 
-	router.use(function (request, reponse) {
-	  return (0, _reactRouter.match)({ routes: _routes2.default, location: request.url }, (0, _setup_react_serve2.default)(request, reponse));
+	router.use(function (request, response) {
+	  return (0, _reactRouter.match)({ routes: _routes2.default, location: request.url }, (0, _setup_react_serve2.default)(request, response));
 	});
 
 	module.exports = router;
@@ -152,7 +152,7 @@ module.exports =
 	  };
 	};
 
-	var clientRequest = function clientRequest(request, reponse, next) {
+	var clientRequest = function clientRequest(request, response, next) {
 	  return function (error, redirectLocation, renderProps) {
 	    switch (request.url) {
 	      case '/goals':
@@ -166,11 +166,11 @@ module.exports =
 	            return Object.assign({}, goal, { from_now: (0, _moment2.default)(goal.created_at).fromNow() });
 	          });
 
-	          reponse.status(200).send((0, _template2.default)(templateOptions(renderProps, JSON.stringify(modifiedGoals))));
+	          response.status(200).send((0, _template2.default)(templateOptions(renderProps, JSON.stringify(modifiedGoals))));
 	        });
 	        break;
 	      case redirectLocation:
-	        reponse.redirect(302, redirectLocation.pathname + redirectLocation.search);
+	        response.redirect(302, redirectLocation.pathname + redirectLocation.search);
 	      default:
 	        next;
 	    }
@@ -205,7 +205,7 @@ module.exports =
 	  var body = _ref.body,
 	      title = _ref.title,
 	      initialState = _ref.initialState;
-	  return '\n    <!DOCTYPE html>\n    <html>\n      <head>\n        <script>window.__APP_INITIAL_STATE__ = ' + initialState + '</script>\n        <title>' + title + '</title>\n        <link href="//cdn.muicss.com/mui-0.9.8/css/mui.min.css" rel="stylesheet" type="text/css" media="screen" />\n        <link rel="stylesheet" href="/stylesheets/style.css" />\n      </head>\n\n      <body>\n        <div id="root">' + (process.env.NODE_ENV === 'production' ? body : '<div>' + body + '</div>') + '</div>\n      </body>\n\n      <script src="/dist/bundle.js"></script>\n      <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.13.1/lodash.js"></script>\n    </html>\n  ';
+	  return '\n    <!DOCTYPE html>\n    <html>\n      <head>\n        <script>window.__APP_INITIAL_STATE__ = ' + initialState + '</script>\n        <title>' + title + '</title>\n        <link href="//cdn.muicss.com/mui-0.9.8/css/mui.min.css" rel="stylesheet" type="text/css" media="screen" />\n        <link rel="stylesheet" href="/stylesheets/style.css" />\n      </head>\n\n      <body>\n        <div id="root">' + (process.env.NODE_ENV === 'production' ? body : '<div>' + body + '</div>') + '</div>\n      </body>\n\n      <script src="/dist/bundle.js"></script>\n    </html>\n  ';
 	};
 
 /***/ },
@@ -423,34 +423,88 @@ module.exports =
 	      goals: props.routes[0].goals ? props.routes[0].goals : [],
 	      labels: [],
 	      milestones: [],
-	      filterBy: null
+	      filterBy: 0,
+	      filterType: 0
 	    };
 	    return _this;
 	  }
 
 	  _createClass(App, [{
+	    key: 'filterGoal',
+	    value: function filterGoal(goals) {
+	      var rows = [];
+	      var _state = this.state,
+	          filterBy = _state.filterBy,
+	          filterType = _state.filterType;
+
+
+	      var containsMilestone = function containsMilestone(title) {
+	        return title === filterBy;
+	      };
+
+	      var containsLabel = function containsLabel(goal) {
+	        var found = false;
+	        for (var i = 0; i < goal.labels.length; i++) {
+	          if (goal.labels[i].name === filterBy) {
+	            found = true;
+	            break;
+	          }
+	        }
+
+	        return found;
+	      };
+
+	      var filteredGoals = goals.filter(function (goal) {
+	        if (!filterBy) return true;
+
+	        if (filterType === 'label') {
+	          return containsLabel(goal);
+	        }
+
+	        if (filterType === 'milestone' && goal.milestone) {
+	          return containsMilestone(goal.milestone.title);
+	        }
+	      });
+
+	      return filteredGoals;
+	    }
+	  }, {
+	    key: 'setRowGoals',
+	    value: function setRowGoals(goals) {
+	      var rows = [];
+
+	      goals.forEach(function (goal, index) {
+	        var row = Math.floor(index / 3);
+	        if (!rows[row]) rows[row] = [];
+
+	        rows[row].push(_react2.default.createElement(_GoalPanel2.default, { key: goal.id, goal: goal }));
+	      });
+
+	      return rows.map(function (row, index) {
+	        return _react2.default.createElement(
+	          _row2.default,
+	          { key: 'row-' + index },
+	          row
+	        );
+	      });
+	    }
+	  }, {
 	    key: 'getLabels',
 	    value: function getLabels() {
 	      var _this2 = this;
 
-	      var url = '/api/v1/goals/all_labels';
-	      var callback = function callback(labels) {
+	      return (0, _fetch_method2.default)('GET', '/api/v1/goals/all_labels', null, function (labels) {
 	        return _this2.setState({ labels: JSON.parse(labels) });
-	      };
-
-	      return (0, _fetch_method2.default)('GET', url, null, callback);
+	      });
 	    }
 	  }, {
 	    key: 'getMilestones',
 	    value: function getMilestones() {
 	      var _this3 = this;
 
-	      var url = '/api/v1/goals/all_milestones';
-	      var callback = function callback(milestones) {
+	      return (0, _fetch_method2.default)('GET', '/api/v1/goals/all_milestones', null, function (milestones) {
 	        return _this3.setState({ milestones: JSON.parse(milestones) });
-	      };
-
-	      return (0, _fetch_method2.default)('GET', url, null, callback);
+	      });
 	    }
 	  }, {
 	    key: 'componentDidMount',
@@ -465,6 +519,7 @@ module.exports =
 
 	      var milestones = this.state.milestones;
 
+
 	      return milestones.map(function (milestones, index) {
 	        return _react2.default.createElement(
 	          _button2.default,
@@ -472,7 +527,10 @@ module.exports =
 	            key: milestones.title + '-' + index,
 	            color: 'primary',
 	            onClick: function onClick() {
-	              return _this4.setState({ filterBy: milestones.title });
+	              return _this4.setState({
+	                filterBy: milestones.title,
+	                filterType: 'milestone'
+	              });
 	            } },
 	          milestones.title
 	        );
@@ -485,6 +543,7 @@ module.exports =
 
 	      var labels = this.state.labels;
 
+
 	      return labels.map(function (label, index) {
 	        return _react2.default.createElement(
 	          _button2.default,
@@ -492,45 +551,12 @@ module.exports =
 	            key: label.name + '-' + index,
 	            style: { backgroundColor: '#' + label.color },
 	            onClick: function onClick() {
-	              return _this5.setState({ filterBy: label.name });
+	              return _this5.setState({
+	                filterBy: label.name,
+	                filterType: 'label'
+	              });
 	            } },
 	          label.name
-	        );
-	      });
-	    }
-	  }, {
-	    key: 'renderGoals',
-	    value: function renderGoals() {
-	      var rows = [];
-	      var goals = this.state.goals;
-	      var filterBy = this.state.filterBy;
-
-	      var levelFileterdGoals = goals.filter(function (goal) {
-	        if (!filterBy) return true;
-
-	        if (goal.milestone) {
-	          return goal.milestone.title === filterBy ? true : false;
-	        } else if (goal.labels.length) {
-	          for (var i = 0; i < goal.labels.length; i++) {
-	            if (goal.labels[i].name === filterBy) {
-	              return true;
-	            }
-	          }
-	        }
-	      });
-
-	      levelFileterdGoals.forEach(function (goal, index) {
-	        var row = Math.floor(index / 3);
-	        if (!rows[row]) rows[row] = [];
-
-	        rows[row].push(_react2.default.createElement(_GoalPanel2.default, { key: index, goal: goal }));
-	      });
-
-	      return rows.map(function (row, index) {
-	        return _react2.default.createElement(
-	          _row2.default,
-	          { key: 'row-' + index },
-	          row
 	        );
 	      });
 	    }
@@ -538,6 +564,12 @@ module.exports =
 	    key: 'render',
 	    value: function render() {
 	      var _this6 = this;
+
+	      var _state2 = this.state,
+	          goals = _state2.goals,
+	          filterBy = _state2.filterBy;
+
+	      var currentGoalsState = !filterBy ? goals : this.filterGoal(goals);
 
 	      return _react2.default.createElement(
 	        'div',
@@ -572,9 +604,9 @@ module.exports =
 	            )
 	          ),
 	          _react2.default.createElement(
-	            _row2.default,
+	            'div',
 	            null,
-	            this.renderGoals()
+	            this.setRowGoals(currentGoalsState)
 	          )
 	        )
 	      );

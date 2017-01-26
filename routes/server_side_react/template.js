@@ -14,6 +14,5 @@ export default ({body, title, initialState}) =>
       </body>
 
       <script src="/dist/bundle.js"></script>
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.13.1/lodash.js"></script>
     </html>
   `

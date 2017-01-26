@@ -9,8 +9,8 @@ router.get('/', (request, response) =>
   response.send('<a type="button" href="/api/v1/auth/login">Log In</a>')
 )
 
-router.use((request, reponse) =>
-  match({routes, location: request.url}, clientRequest(request, reponse))
+router.use((request, response) =>
+  match({routes, location: request.url}, clientRequest(request, response))
 )
 
 module.exports = router
