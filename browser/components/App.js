@@ -123,7 +123,6 @@ export default class App extends Component {
     const currentGoalsState = !filterBy ? goals : this.filterGoal(goals)
 
     return <div>
-        <div>{filterBy}</div>
         <Appbar></Appbar>
         <br/>
         <Container>
