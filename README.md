@@ -1,4 +1,4 @@
-# Goalie  
+# Goalie
 <img src="http://mrnussbaum.com/slapshot1/ipad/images/goalie.gif" width="60">
 
 ## Contributing
@@ -25,7 +25,7 @@ Application description
 A Goal viewer for learners to easily navigate the goal library.
 
 Authorization callback URL
-http://localhost:5000/oauth_callback
+http://localhost:5000/api/v1/auth/oauth_callback
 ```
 
 Copy the `client id` and `client secret` and use them below:
