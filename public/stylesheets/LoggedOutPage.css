@@ -1,0 +1,65 @@
+.LoggedOutPage-body {
+  text-align: center;
+  justify-content: center;
+  font-family: 'Montserrat';
+  opacity: 0.8;
+}
+
+.LoggedOutPage-body__text {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.LoggedOutPage-body__text h1{
+  font-size: 120px;
+  margin: 10px;
+  line-height: 130px;
+  color: white;
+  opacity: 0.8;
+}
+
+.LoggedOutPage-body__text h3{
+  font-size: 20px;
+  margin: 10px;
+  line-height: 30px;
+  color: white;
+  opacity: 0.8;
+}
+
+.LoggedOutPage-body__video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -100;
+}
+
+@media (min-aspect-ratio: 16/9) {
+  .LoggedOutPage-body__video {
+    height: 300%;
+    top: -100%;
+  }
+}
+
+@media (max-aspect-ratio: 16/9) {
+  .LoggedOutPage-body__video {
+    width: 300%;
+    left: -100%;
+  }
+}
+
+@media (max-width: 767px) {
+  .LoggedOutPage-body__text h1, h2 {
+    color: black;
+    z-index: 100;
+    font-size: 60px;
+  }
+
+  .LoggedOutPage-body__video  {
+    display: none;
+  }
+}
+
