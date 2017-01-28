@@ -36,7 +36,6 @@ GITHUB_CLIENT_ID=GET_THIS_VALUE_FROM_GITHUB
 GITHUB_CLIENT_SECRET=GET_THIS_VALUE_FROM_GITHUB
 ```
 
-```
 #### Run the Server!
 
 At this point, you should be able to run 'npm start' without errors.

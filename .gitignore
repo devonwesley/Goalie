@@ -31,3 +31,5 @@ npm-debug.log
 
 .env
 mock_data/
+
+yarn.lock
