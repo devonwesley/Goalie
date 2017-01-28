@@ -41,7 +41,7 @@ export default class GoalDetails extends Component {
 
     const goal = this.state.goal
     return <div>
-      <div className="mui--text-right" onClick={this.props.closeModal}>X</div>
+      <div className="mui--text-right close" onClick={this.props.closeModal}>X</div>
       <div style={{float: 'right', margin: '20px', marginRight: '-5px'}}>
         <img style={{borderRadius: "2px"}} src={goal.user.avatar_url} height="50px" width="50px"/>
       </div>
