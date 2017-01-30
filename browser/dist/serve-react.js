@@ -53,7 +53,11 @@ module.exports =
 
 	var _reactRouter = __webpack_require__(2);
 
-	var _setup_react_serve = __webpack_require__(3);
+	var _path = __webpack_require__(3);
+
+	var _path2 = _interopRequireDefault(_path);
+
+	var _setup_react_serve = __webpack_require__(4);
 
 	var _setup_react_serve2 = _interopRequireDefault(_setup_react_serve);
 
@@ -66,7 +70,7 @@ module.exports =
 	var router = _express2.default.Router();
 
 	router.get('/', function (request, response) {
-	  return response.send('<a type="button" href="/api/v1/auth/login">Log In</a>');
+	  return response.sendFile(_path2.default.join(__dirname, '../../public/LoggedOutPage.html'));
 	});
 
 	router.use(function (request, response) {
@@ -89,6 +93,12 @@ module.exports =
 
 /***/ },
 /* 3 */
+/***/ function(module, exports) {
+
+	module.exports = require("path");
+
+/***/ },
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -97,27 +107,27 @@ module.exports =
 	  value: true
 	});
 
-	var _react = __webpack_require__(4);
+	var _react = __webpack_require__(5);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _server = __webpack_require__(5);
+	var _server = __webpack_require__(6);
 
-	var _template = __webpack_require__(6);
+	var _template = __webpack_require__(7);
 
 	var _template2 = _interopRequireDefault(_template);
 
-	var _requestPromise = __webpack_require__(7);
+	var _requestPromise = __webpack_require__(8);
 
 	var _requestPromise2 = _interopRequireDefault(_requestPromise);
 
 	var _reactRouter = __webpack_require__(2);
 
-	var _data_wrapper = __webpack_require__(8);
+	var _data_wrapper = __webpack_require__(9);
 
 	var _data_wrapper2 = _interopRequireDefault(_data_wrapper);
 
-	var _config = __webpack_require__(9);
+	var _config = __webpack_require__(10);
 
 	var _moment = __webpack_require__(12);
 
@@ -180,19 +190,19 @@ module.exports =
 	exports.default = clientRequest;
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports) {
 
 	module.exports = require("react");
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports) {
 
 	module.exports = require("react-dom/server");
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -209,13 +219,13 @@ module.exports =
 	};
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports) {
 
 	module.exports = require("request-promise");
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -226,7 +236,7 @@ module.exports =
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(4);
+	var _react = __webpack_require__(5);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -269,7 +279,7 @@ module.exports =
 	exports.default = DataWrapper;
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -277,7 +287,7 @@ module.exports =
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	var path = __webpack_require__(10);
+	var path = __webpack_require__(3);
 	var fs = __webpack_require__(11);
 
 	var config = void 0;
@@ -310,12 +320,6 @@ module.exports =
 	exports.readConfig = readConfig;
 
 /***/ },
-/* 10 */
-/***/ function(module, exports) {
-
-	module.exports = require("path");
-
-/***/ },
 /* 11 */
 /***/ function(module, exports) {
 
@@ -337,7 +341,7 @@ module.exports =
 	    value: true
 	});
 
-	var _react = __webpack_require__(4);
+	var _react = __webpack_require__(5);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -369,7 +373,7 @@ module.exports =
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(4);
+	var _react = __webpack_require__(5);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -630,7 +634,7 @@ module.exports =
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(4);
+	var _react = __webpack_require__(5);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -843,7 +847,7 @@ module.exports =
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(4);
+	var _react = __webpack_require__(5);
 
 	var _react2 = _interopRequireDefault(_react);
 
@@ -998,7 +1002,7 @@ module.exports =
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _react = __webpack_require__(4);
+	var _react = __webpack_require__(5);
 
 	var _react2 = _interopRequireDefault(_react);
 
