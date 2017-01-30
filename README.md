@@ -36,6 +36,22 @@ GITHUB_CLIENT_ID=GET_THIS_VALUE_FROM_GITHUB
 GITHUB_CLIENT_SECRET=GET_THIS_VALUE_FROM_GITHUB
 ```
 
+#### Persistences
+
+```
+ brew install postgres
+ brew tap homebrew/services
+ brew services start postgresql
+ create_db goalie-development
+ npm run migrate:dev
+```
+
+###3 Seed Database
+
+```
+http://localhost:5000/api/v1/goals/seed_database_goals
+```
+
 #### Run the Server!
 
 At this point, you should be able to run 'npm start' without errors.

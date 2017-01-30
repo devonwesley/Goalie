@@ -7,7 +7,9 @@
     "start:dev": "nodemon --exec babel-node ./bin/www",
     "webpack:build": "webpack -w",
     "test": "mocha --require ./test/setup.js --recursive ./test/components.js --compilers js:babel-core/register --timeout 10000",
-    "lint": "functionhappy | snazzy"
+    "lint": "functionhappy | snazzy",
+    "migrate:dev": "NODE_ENV=development knex migrate:latest --knexfile config/database/db_config.js",
+    "migrate:rollback": "NODE_ENV=development knex migrate:rollback --knexfile config/database/db_config.js"
   },
   "dependencies": {
     "babel-cli": "^6.14.0",
@@ -31,11 +33,13 @@
     "cors": "^2.8.1",
     "debug": "~2.2.0",
     "express": "~4.14.0",
+    "knex": "^0.12.6",
     "lodash": "^4.17.4",
     "moment": "^2.17.1",
     "morgan": "~1.7.0",
     "muicss": "^0.9.8",
     "node-sass-middleware": "0.9.8",
+    "pg": "^6.1.2",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-modal": "^1.6.5",
