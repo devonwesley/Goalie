@@ -33,12 +33,13 @@ const getLabelsCallback = (request, response) => {
     const goalLabels = JSON.parse(labels)
     const activeLabels = [
       'apprentice',
+      'benchmark',
       'core',
       'draft',
       'foundational',
       'practice',
       'production',
-      'prototype'
+      'prototype',
     ]
 
     const filterLabels = goalLabels.filter(label => activeLabels.includes(label.name))
