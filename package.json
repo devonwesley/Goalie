@@ -5,7 +5,7 @@
   "scripts": {
     "start": "./node_modules/.bin/babel-node ./bin/www",
     "start:dev": "nodemon --exec babel-node ./bin/www",
-    "webpack:build:producion": "webpack -p",
+    "webpack:build:production": "webpack -p",
     "webpack:build": "webpack -w",
     "test": "mocha --require ./test/setup.js --recursive ./test/components.js --compilers js:babel-core/register --timeout 10000",
     "lint": "functionhappy | snazzy"
